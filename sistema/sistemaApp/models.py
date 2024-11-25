@@ -5,7 +5,7 @@ from mongoengine import Document, StringField, FloatField, IntField
 class Producto(Document):
     codigo = StringField(required=True)
     nombre = StringField(required=True)
-    precio = FloatField(required=True)
+    precio = IntField(required=True)
     stock = IntField(required=True)
 
 

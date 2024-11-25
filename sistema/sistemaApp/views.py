@@ -2,8 +2,23 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from sistemaApp.models import Producto
+from sistemaApp.models import Movimientos
+from datetime import datetime
 from bson import json_util
 import json
+
+
+def indexhtml(request):
+    return render(request, 'index.html')
+
+def productoshtml(request):
+    return render(request, 'productos.html')
+
+def movimientoshtml(request):
+    return render(request, 'movimientos.html')
+
+def gestionhtml(request):
+    return render(request, 'gestion.html')
 
 @csrf_exempt
 def crear_producto(request):
@@ -36,7 +51,6 @@ def listar_productos(request):
             for p in productos
         ]
         return JsonResponse(productos_json, safe=False)
-
 
 @csrf_exempt
 def actualizar_producto(request, codigo_producto):
@@ -76,7 +90,7 @@ def registrar_movimiento(request):
             if not producto:
                 return JsonResponse({'error': 'Producto no encontrado'}, status=404)
 
-            movimiento = Movimiento(
+            movimiento = Movimientos(
                 producto_codigo=data['producto_codigo'],
                 tipo=data['tipo'],
                 cantidad=data['cantidad'],
@@ -100,7 +114,7 @@ def registrar_movimiento(request):
 @csrf_exempt
 def listar_movimientos(request):
     if request.method == "GET":
-        movimientos = Movimiento.objects()
+        movimientos = Movimientos.objects()
         movimientos_json = [
             {
                 "producto_codigo": m.producto_codigo,

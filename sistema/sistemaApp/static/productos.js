@@ -1,10 +1,11 @@
-
-
-/* Obtener productos */
+const baseUrl = window.location.origin;
 
 async function cargarProductos() {
     try {
-        const response = await fetch("/productos/");
+        const response = await fetch(`${baseUrl}/productos/listar`);
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
         const productos = await response.json();
 
         const tabla = document.querySelector("#productosTabla tbody");
@@ -15,7 +16,7 @@ async function cargarProductos() {
             fila.innerHTML = `
                 <td>${producto.codigo}</td>
                 <td>${producto.nombre}</td>
-                <td>${producto.precio.toFixed(2)}</td>
+                <td>${producto.precio}</td>
                 <td>${producto.stock}</td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="editarProducto('${producto.codigo}')">Editar</button>
@@ -93,7 +94,7 @@ async function eliminarProducto(codigo) {
 /* Editar producto */
 
 async function editarProducto(codigo_producto) {
-    const response = await fetch("/productos/");
+    const response = await fetch("/productos/listar");
     const productos = await response.json();
     const producto = productos.find((p) => p.codigo === codigo_producto);
 

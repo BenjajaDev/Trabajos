@@ -14,5 +14,6 @@ urlpatterns = [
     path('movimientos/', views.movimientoshtml, name='movimientoshtml'),
     path('movimientos/listar', views.listar_movimientos, name='listar_movimientos'),
     path('movimientos/registrar/', views.registrar_movimiento, name='registrar_movimiento'),
-]
+    path('movimientos/eliminar/<str:codigo_movimiento>/', views.eliminar_movimiento, name='eliminar_movimiento')
 
+]

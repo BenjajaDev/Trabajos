@@ -11,8 +11,21 @@
 </head>
 
 <body>
-    <div class="text-center "><h1 class="display-4 bg-info text-white font-weight-bold">Sistema de inventario</h1></div>
-    <br>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">Sistema de Gestión</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productos/">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/movimientos/">Movimientos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container-fluid d-flex justify-content-center">
         <form class="row w-25 border border-dark radius p-3" id="productoForm">
             <input type="hidden" id="operacion" value="crear">
@@ -37,6 +50,7 @@
         </form>
         
 
+
         <table class="table w-50 ms-5 border border-dark" id="productosTabla">
             <thead>
                 <tr>
@@ -51,11 +65,10 @@
                
             </tbody>
         </table>
-
         
         
     </div>
-
+ 
 
 
 

@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from sistemaApp.models import Producto
 from sistemaApp.models import Movimientos
-from datetime import datetime
+import datetime
 from bson import json_util
+import random
 import json
 
 
@@ -66,6 +67,7 @@ def actualizar_producto(request, codigo_producto):
             return JsonResponse({'mensaje': 'Producto actualizado correctamente'}, status=200)
         return JsonResponse({'error': 'Producto no encontrado'}, status=404)
 
+
 @csrf_exempt
 def eliminar_producto(request, codigo_producto):
     if request.method == "DELETE":
@@ -81,48 +83,64 @@ def index(request):
 
 
 @csrf_exempt
-def registrar_movimiento(request):
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            producto = Producto.objects(codigo=data['producto_codigo']).first()
-
-            if not producto:
-                return JsonResponse({'error': 'Producto no encontrado'}, status=404)
-
-            movimiento = Movimientos(
-                producto_codigo=data['producto_codigo'],
-                tipo=data['tipo'],
-                cantidad=data['cantidad'],
-                descripcion=data.get('descripcion', ''),
-                fecha=datetime.utcnow()
-            )
-            movimiento.save()
-
-            # Actualizar el stock del producto
-            if data['tipo'] == 'entrada':
-                producto.update(inc__stock=data['cantidad'])
-            elif data['tipo'] == 'salida':
-                if producto.stock < data['cantidad']:
-                    return JsonResponse({'error': 'Stock insuficiente'}, status=400)
-                producto.update(dec__stock=data['cantidad'])
-
-            return JsonResponse({'mensaje': 'Movimiento registrado exitosamente'}, status=201)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-
-@csrf_exempt
 def listar_movimientos(request):
     if request.method == "GET":
         movimientos = Movimientos.objects()
         movimientos_json = [
             {
-                "producto_codigo": m.producto_codigo,
-                "tipo": m.tipo,
-                "cantidad": m.cantidad,
-                "fecha": m.fecha.strftime("%Y-%m-%d %H:%M:%S"),
-                "descripcion": m.descripcion
+                "codigo": str(m.codigo),
+                "tipo": str(m.tipo),
+                "cantidad": int(m.cantidad),
+                "producto": str(m.producto),
+                "fecha": str(m.fecha),
+                "descripcion": str(m.descripcion),
             }
             for m in movimientos
         ]
         return JsonResponse(movimientos_json, safe=False)
+
+@csrf_exempt
+def registrar_movimiento(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            codigo = str(random.randint(1000, 9999))  # Generar un codigo aleatorio
+            producto = str(data.get("producto_codigo"))
+            tipo = data.get("tipo").lower()
+            cantidad = data.get("cantidad")
+            descripcion = data.get("descripcion")
+            fecha = data.get("fecha")
+            # Verificar que el producto existe
+            producto = Producto.objects.filter(codigo=producto).first()
+            if tipo == "entrada" and producto:
+                producto.stock += cantidad
+                producto.save()
+                print("Se le han ingresado: "+str(cantidad)+" unidades al producto: "+str(producto.nombre))
+    
+    # Crear el movimiento
+            movimiento = Movimientos(
+                codigo=codigo,
+                producto=producto.nombre,
+                tipo=tipo,
+                cantidad=cantidad,
+                descripcion=descripcion,
+                fecha=fecha
+            )
+            movimiento.save()  # Guardar el movimiento
+
+            return JsonResponse({'mensaje': 'Se registró el movimiento'}, status=200)
+        
+            
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+
+@csrf_exempt
+def eliminar_movimiento(request, codigo_movimiento):
+    if request.method == "DELETE":
+        Movimiento = Movimientos.objects(codigo=codigo_movimiento).first()
+        if Movimiento:
+            Movimiento.delete();
+            return JsonResponse({'mensaje': 'Movimiento eliminado correctamente'}, status=200)
+        return JsonResponse({'error': 'Movimiento no encontrado'}, status=404)

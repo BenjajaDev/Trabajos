@@ -17,8 +17,8 @@
     <br>
     <div class="container-fluid d-flex justify-content-center">
         <!-- Card para productos -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
+        <div class="card mb-3 ms-3 me-3" style="width: 18rem;">
+            <div class="card-body ">
                 <h5 class="card-title">Gestionar productos</h5>
                 <a href="{% url 'productoshtml' %}" class="btn btn-primary">
                     <i class="fa fa-arrow-right"></i>
@@ -26,10 +26,19 @@
             </div>
         </div>
         <!-- Card para movimientos -->
-        <div class="card" style="width: 18rem;">
+        <div class="card mb-3 ms-3 me-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Gestionar movimientos</h5>
                 <a href="{% url 'movimientoshtml' %}" class="btn btn-primary">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-3 ms-3" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Generar reporte</h5>
+                <a href="" class="btn btn-primary">
                     <i class="fa fa-arrow-right"></i>
                 </a>
             </div>

@@ -1,6 +1,5 @@
 from django.db import models
-
-from mongoengine import Document, StringField, FloatField, IntField
+from mongoengine import Document, StringField, IntField, DateField
 
 class Producto(Document):
     codigo = StringField(required=True)
@@ -14,7 +13,7 @@ class Movimientos(Document):
     tipo = StringField(choices=['entrada', 'salida'], required=True)
     cantidad = IntField(required=True) #Cantidad ingresada
     producto = StringField(required=True)
-    fecha = StringField(required=True)
+    fecha = DateField(required=True)
     descripcion = StringField()
 
     

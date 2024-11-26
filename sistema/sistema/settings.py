@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'sistema.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
+#configuración de MongoDB
 MONGODB_SETTINGS = {
     'DB': 'sistema',
     'HOST': 'localhost',

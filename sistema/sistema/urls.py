@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.urls import path
 from sistemaApp import views
 
+#todas las url por las que podemos navegae en la app
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),

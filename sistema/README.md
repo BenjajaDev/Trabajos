@@ -3,18 +3,13 @@
 ## Descripción
 Este proyecto es un sistema para gestionar productos y movimientos en un inventario. Permite registrar productos, realizar movimientos de entrada y salida, y generar reportes sobre el estado del inventario.
 
-## Instalación
-1. Clona el repositorio.
-2. Instala las dependencias necesarias.
-3. Configura la base de datos según las instrucciones en `settings.py`.
-
 ## Uso
-- Para iniciar el servidor, ejecuta:
+- Para iniciar el servidor, ejecute:
   ```bash
   python manage.py runserver
   Accede a la aplicación en http://localhost:8000
 
-  ## Descripción de Archivos del Proyecto
+## Descripción de Archivos del Proyecto
 
 1. **models.py**
    - Define los modelos de datos utilizados en la aplicación utilizando `mongoengine`.

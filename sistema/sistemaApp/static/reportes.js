@@ -1,3 +1,4 @@
+//escucha el evento cuando el contenido del documento ha sido completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
     const tablaReportes = document.getElementById('tablaReportes');
 
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         mostrarReporte(data, 'Productos Bajo Stock');
     });
-
+    //función para mostrar un reporte general
     function mostrarReporte(data, titulo) {
         tablaReportes.innerHTML = `
             <h3>${titulo}</h3>
@@ -48,18 +49,18 @@ document.addEventListener('DOMContentLoaded', () => {
             </table>
         `;
     }
-
+    //función para mostrar reportes por mes
     function mostrarReportesPorMes(data) {
-        tablaReportes.innerHTML = ''; // Limpiar la tabla anterior
+        tablaReportes.innerHTML = ''; //limpiar la tabla anterior
         for (const mes in data) {
-            // Crear un encabezado para el mes
+            //crear un encabezado para el mes
             const mesTitulo = document.createElement('h3');
-            const [year, month] = mes.split('-'); // Divide la clave del mes en año y mes
+            const [year, month] = mes.split('-'); //divide la clave del mes en año y mes
         const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         mesTitulo.textContent = `Productos más vendidos en ${monthNames[parseInt(month) - 1]} ${year}`;
             tablaReportes.appendChild(mesTitulo);
     
-            // Crear la tabla
+            //crear la tabla
             const table = document.createElement('table');
             table.className = 'table';
             table.innerHTML = `

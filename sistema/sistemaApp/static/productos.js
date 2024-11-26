@@ -29,12 +29,11 @@ async function cargarProductos() {
         console.error("Error al cargar los productos:", error);
     }
 }
-
+//llama a la función para cargar los productos al iniciar
 cargarProductos();
 
 
 /* Crear o actualizar */
-
 document.querySelector("#productoForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -61,7 +60,7 @@ document.querySelector("#productoForm").addEventListener("submit", async (event)
         document.getElementById("stock").value = "";
         alert((await response.json()).mensaje);
     } else if (operacion === "actualizar") {
-        // Actualizar producto
+        //actualizar producto
         const response = await fetch(`/productos/actualizar/${codigo}/`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -74,7 +73,7 @@ document.querySelector("#productoForm").addEventListener("submit", async (event)
         alert((await response.json()).mensaje);
     }
 
-    document.getElementById("operacion").value = "crear"; // Resetear formulario
+    document.getElementById("operacion").value = "crear"; //resetear formulario
     cargarProductos(); // Recargar tabla
     event.target.reset();
 });

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from sistemaApp.models import Producto
 from sistemaApp.models import Movimientos
+from sistemaApp.pipelines import obtener_productos_mas_vendidos_por_mes, obtener_total_movimientos_por_tipo, obtener_stock_actual_productos, obtener_productos_bajo_stock
 import datetime
 from bson import json_util
 import random
@@ -20,6 +21,9 @@ def movimientoshtml(request):
 
 def gestionhtml(request):
     return render(request, 'gestion.html')
+
+def reporteshtml(request):
+    return render(request, 'reportes.html')
 
 @csrf_exempt
 def crear_producto(request):
@@ -80,8 +84,28 @@ def eliminar_producto(request, codigo_producto):
 def index(request):
     return render(request, 'index.html')
 
+@csrf_exempt
+def reporte_productos_mas_vendidos_por_mes(request):
+    if request.method == "GET":
+        resultados = obtener_productos_mas_vendidos_por_mes()
+        return JsonResponse(resultados, safe=False)
 
+@csrf_exempt
+def reporte_total_movimientos_por_tipo(request):
+    if request.method == "GET":
+        resultados = obtener_total_movimientos_por_tipo()
+        return JsonResponse(resultados, safe=False)
+@csrf_exempt
+def reporte_productos_bajo_stock(request):
+    if request.method == "GET":
+        resultados = obtener_productos_bajo_stock()
+        return JsonResponse(resultados, safe=False)
 
+@csrf_exempt
+def reporte_stock_actual_productos(request):
+    if request.method == "GET":
+        resultados = obtener_stock_actual_productos()
+        return JsonResponse(resultados, safe=False)
 @csrf_exempt
 def listar_movimientos(request):
     if request.method == "GET":
